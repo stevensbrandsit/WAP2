@@ -43,6 +43,7 @@ function LoginForm() {
                 setToken(data.token);
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('email', email);
+                localStorage.setItem('contract', contract);
                 navigate('/dashboard');
             }
             // eslint-disable-next-line no-unused-vars

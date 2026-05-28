@@ -7,6 +7,7 @@ function Dashboard() {
             <h1>Dashboard</h1>
             <h2>Email: {email} </h2>
             <h2>Token: {token} </h2>
+            <a href="/usercontrol">User Control</a>
         </>
     )
 }
