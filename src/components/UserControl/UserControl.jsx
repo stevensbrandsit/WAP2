@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import './UserControl.css';
 import { useNavigate } from "react-router-dom";
+import Topbar from "../Topbar/Topbar.jsx";
 
 function UserControl() {
 
@@ -125,6 +126,7 @@ function UserControl() {
 
     return(
         <>
+            <Topbar/>
             <details>
                 <summary>Create new user</summary>
                 <form onSubmit={createUser}>
