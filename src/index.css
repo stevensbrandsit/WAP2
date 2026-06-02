@@ -1,25 +1,24 @@
-/* Global layout rules to avoid horizontal scroll and provide base styles */
-html, body, #root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+@import "tailwindcss";
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  body, input, button {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 
-/* Prevent accidental horizontal scroll from wide children */
-body {
-  overflow-x: hidden;
-}
-
-/* Utility container used across components for consistent centering */
-.container-centered {
-  width: 100%;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Gentle default font smoothing */
-body, input, button {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer components {
+  .container-centered {
+    @apply w-full max-w-[1100px] mx-auto px-5;
+  }
 }

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './LoginPage.css';
-import osakaLogo from '../../assets/osaka.png';
+import osakaLogo from '../../assets/osaka_w_trans.png';
 import iwaLogo from '../../assets/IWA.png';
 
 function LoginForm() {
@@ -10,7 +9,7 @@ function LoginForm() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [contract, setContract] = useState('');
+    const [contract] = useState('HANZEC1'); // Fixed contract ID
     const [error, setError] = useState('');
     const [token, setToken] = useState('');
 
@@ -20,10 +19,6 @@ function LoginForm() {
 
     function handlePasswordChange(evt) {
         setPassword(evt.target.value);
-    }
-
-    function handleContractsChange(evt) {
-        setContract(evt.target.value);
     }
 
     async function handleFormSubmit(evt) {
@@ -56,31 +51,45 @@ function LoginForm() {
 
     return (
         <>
-            <div className="root-bg">
-                <div className="page-container">
-                    <div className="form-container">
-                        <div className="left-panel">
-                            <div className="login-form">
-                                <form onSubmit={handleFormSubmit}>
-                                    <h2 className="form-title">Sign In</h2>
-                                    <h3 className="form-subtitle">Enter your account information to continue</h3>
-                                    {error && <p style={{color: "#d23b3b"}}>{error}</p>}
-                                    {token && <p style={{color: "#2e7d32"}}>Logged in!</p>}
-                                    <input className="form-input" type="text" id="email" name="email" onChange={handleEmailChange} placeholder="Email"/>
-                                    <input className="form-input" type="password" id="password" name="password" onChange={handlePasswordChange} placeholder="Password"/>
-                                    <input className="form-input" type="text" id="contract" name="contract" onChange={handleContractsChange} placeholder="Contract ID"/>
-                                    <button className="form-submit" type="submit">Login</button>
-                                    <div className="line"></div>
-                                    <p className="footer">If you do not have an account, please contact your administrator to get one.</p>
-                                </form>
-                            </div>
-                        </div>
+            <div className="min-h-screen w-full bg-gradient-to-b from-blue-50 to-gray-50 flex items-center justify-center p-6">
+                <div className="w-full max-w-3xl bg-white rounded-2xl shadow-lg p-4.5 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="p-6 flex flex-col gap-3">
+                        <div className="flex flex-col gap-3">
+                            <form onSubmit={handleFormSubmit}>
+                                <h2 className="text-4xl font-bold m-0 text-brand-primary">Sign In</h2>
+                                <h3 className="text-base text-black m-0 mt-2 mb-2">Enter your account information to continue</h3>
+                                {error && <p className="text-red-500 font-medium">{error}</p>}
+                                {token && <p className="text-green-600 font-medium">Logged in!</p>}
+                                
+                                <input 
+                                  className="w-full px-3.5 py-3 text-base rounded-lg border border-gray-300 mt-3 focus:outline-none focus:ring-2 focus:ring-brand-primary" 
+                                  type="text" id="email" name="email" onChange={handleEmailChange} placeholder="Email"
+                                />
+                                
+                                <input 
+                                  className="w-full px-3.5 py-3 text-base rounded-lg border border-gray-300 mt-3 focus:outline-none focus:ring-2 focus:ring-brand-primary" 
+                                  type="password" id="password" name="password" onChange={handlePasswordChange} placeholder="Password"
+                                />
+                                
+                                <button 
+                                  className="w-full mt-6 text-white font-bold py-3 text-base font-medium rounded-xl border-0 cursor-pointer transition-all duration-75 shadow-md hover:opacity-90" 
+                                  style={{ backgroundColor: '#2d287f' }}
+                                  type="submit"
+                                >
+                                  Login
+                                </button>
 
-                        <div className="right-panel">
-                            <div style={{textAlign: 'center'}}>
-                                <img className="logo" src={osakaLogo} alt="Osaka university logo" />
-                                <img className="logo" src={iwaLogo} alt="IWA logo" />
-                            </div>
+                                <div className="mt-4 h-px w-full bg-gray-200" />
+                                
+                                <p className="text-center text-black text-sm">If you do not have an account, please contact your administrator to get one.</p>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div className="p-6 flex items-center justify-center">
+                        <div className="text-center">
+                            <img className="w-40 h-40 object-contain mb-4" src={osakaLogo} alt="Osaka university logo" />
+                            <img className="w-40 h-40 object-contain" src={iwaLogo} alt="IWA logo" />
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,4 @@
 import {useEffect, useState} from 'react';
-import './UserControl.css';
 import { useNavigate } from "react-router-dom";
 import Topbar from "../Topbar/Topbar.jsx";
 
@@ -127,58 +126,76 @@ function UserControl() {
     return(
         <>
             <Topbar/>
-            <details>
-                <summary>Create new user</summary>
-                <form onSubmit={createUser}>
-                    <input className="form-input" type="text" id="name" name="name" onChange={handleUsernameChange} placeholder="Name"/>
-                    <input className="form-input" type="text" id="email" name="email" onChange={handleEmailChange} placeholder="Email"/>
-                    <input className="form-input" type="text" id="password" name="password" onChange={handlePasswordChange} placeholder="Password"/>
-                    <input className="form-input" type="text" id="user_identifier" name="user_identifier" onChange={handleUserIdentifierChange} placeholder="User Identifier, such as OSAKA-003"/>
-                    <button className="button" onClick={createUser}>Create</button>
-                </form>
-            </details>
-            {error && <p style={{color: "red"}}>{error}</p>}
-            <table>
-                <thead>
-                    <tr>
-                        <td>Email</td>
-                        <td>ID</td>
-                        <td>Role</td>
-                        <td>Name</td>
-                        <td>User Identifier</td>
-                        <td>Acties</td>
-                    </tr>
-                </thead>
-                <tbody>
-                {userList.map(user => (
-                    <tr key={user.id}>
-                        {editId === user.id ? (
-                            <>
-                                <td><input value={editData.email} onChange={e => setEditData({...editData, email: e.target.value })}/></td>
-                                <td><input value={editData.naam} onChange={e => setEditData({...editData, name: e.target.value})}/></td>
-                                <td><input placeholder="new password" value={editData.password} onChange={e => setEditData({...editData, password: e.target.value})}/></td>
-                                <td>
-                                    <button onClick={() => updateUser(editData)}>Save</button>
-                                    <button onClick={() => setEditId(null)}>Cancel</button>
-                                </td>
-                            </>
-                        ) : (
-                        <>
-                            <td>{user.email}</td>
-                            <td>{user.id}</td>
-                            <td>{user.machtiging}</td>
-                            <td>{user.naam}</td>
-                            <td>{user.user_identifier}</td>
-                            <td>
-                                <button onClick={() => deleteUser(user.user_identifier)}>Delete</button>
-                                <button onClick={() => { setEditId(user.id); setEditData(user)}}>Edit</button>
-                            </td>
-                        </>
-                        )}
-                    </tr>
-                    ))}
-                </tbody>
-            </table>
+            <main className="px-6 max-w-[1100px] mx-auto my-6">
+                <details className="mb-6 cursor-pointer">
+                    <summary className="font-semibold text-lg text-osaka-900 mb-4">Create new user</summary>
+                    <form onSubmit={createUser} className="mt-4 space-y-3 bg-osaka-50 p-5 rounded-lg">
+                        <input 
+                          className="w-full px-3.5 py-2 text-sm rounded-lg border border-osaka-200 focus:outline-none focus:ring-2 focus:ring-osaka-500" 
+                          type="text" id="name" name="name" onChange={handleUsernameChange} placeholder="Name"
+                        />
+                        <input 
+                          className="w-full px-3.5 py-2 text-sm rounded-lg border border-osaka-200 focus:outline-none focus:ring-2 focus:ring-osaka-500" 
+                          type="text" id="email" name="email" onChange={handleEmailChange} placeholder="Email"
+                        />
+                        <input 
+                          className="w-full px-3.5 py-2 text-sm rounded-lg border border-osaka-200 focus:outline-none focus:ring-2 focus:ring-osaka-500" 
+                          type="text" id="password" name="password" onChange={handlePasswordChange} placeholder="Password"
+                        />
+                        <input 
+                          className="w-full px-3.5 py-2 text-sm rounded-lg border border-osaka-200 focus:outline-none focus:ring-2 focus:ring-osaka-500" 
+                          type="text" id="user_identifier" name="user_identifier" onChange={handleUserIdentifierChange} placeholder="User Identifier, such as OSAKA-003"
+                        />
+                        <button className="px-4 py-2 bg-osaka-600 hover:bg-osaka-700 text-white font-medium rounded-lg transition-colors" onClick={createUser}>Create</button>
+                    </form>
+                </details>
+                
+                {error && <p className="text-red-600 font-semibold mb-4">{error}</p>}
+                
+                <div className="overflow-x-auto rounded-lg shadow-md-purple">
+                    <table className="w-full border-collapse">
+                        <thead>
+                            <tr className="bg-osaka-700 text-white">
+                                <th className="px-4 py-3 text-left text-sm font-semibold">Email</th>
+                                <th className="px-4 py-3 text-left text-sm font-semibold">ID</th>
+                                <th className="px-4 py-3 text-left text-sm font-semibold">Role</th>
+                                <th className="px-4 py-3 text-left text-sm font-semibold">Name</th>
+                                <th className="px-4 py-3 text-left text-sm font-semibold">User Identifier</th>
+                                <th className="px-4 py-3 text-left text-sm font-semibold">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {userList.map(user => (
+                            <tr key={user.id} className="border-b border-osaka-100 hover:bg-osaka-50 transition-colors">
+                                {editId === user.id ? (
+                                    <>
+                                        <td className="px-4 py-3"><input className="w-full px-2 py-1 rounded border border-osaka-200 text-sm" value={editData.email} onChange={e => setEditData({...editData, email: e.target.value })}/></td>
+                                        <td className="px-4 py-3"><input className="w-full px-2 py-1 rounded border border-osaka-200 text-sm" value={editData.naam} onChange={e => setEditData({...editData, name: e.target.value})}/></td>
+                                        <td className="px-4 py-3"><input className="w-full px-2 py-1 rounded border border-osaka-200 text-sm" placeholder="new password" value={editData.password} onChange={e => setEditData({...editData, password: e.target.value})}/></td>
+                                        <td className="px-4 py-3 space-x-2">
+                                            <button className="px-3 py-1.5 text-xs bg-green-600 hover:bg-green-700 text-white rounded font-medium transition-colors" onClick={() => updateUser(editData)}>Save</button>
+                                            <button className="px-3 py-1.5 text-xs bg-gray-400 hover:bg-gray-500 text-white rounded font-medium transition-colors" onClick={() => setEditId(null)}>Cancel</button>
+                                        </td>
+                                    </>
+                                ) : (
+                                <>
+                                    <td className="px-4 py-3 text-sm">{user.email}</td>
+                                    <td className="px-4 py-3 text-sm">{user.id}</td>
+                                    <td className="px-4 py-3 text-sm">{user.machtiging}</td>
+                                    <td className="px-4 py-3 text-sm">{user.naam}</td>
+                                    <td className="px-4 py-3 text-sm">{user.user_identifier}</td>
+                                    <td className="px-4 py-3 space-x-2">
+                                        <button className="px-3 py-1.5 text-xs bg-red-600 hover:bg-red-700 text-white rounded font-medium transition-colors" onClick={() => deleteUser(user.user_identifier)}>Delete</button>
+                                        <button className="px-3 py-1.5 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded font-medium transition-colors" onClick={() => { setEditId(user.id); setEditData(user)}}>Edit</button>
+                                    </td>
+                                </>
+                                )}
+                            </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </main>
         </>
     )
 }
