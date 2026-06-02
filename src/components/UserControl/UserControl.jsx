@@ -41,6 +41,7 @@ function UserControl() {
     }
 
     async function updateUser(user) {
+        setError(null);
         try {
             const response = await fetch(`/IWA/contracten/${localStorage.getItem('contract')}/user/${user.user_identifier}`, {
                 method: 'PUT',
@@ -53,17 +54,19 @@ function UserControl() {
             const data = await response.json();
             console.log(data);
             if (!response.ok) {
-                setError(data.err)
+                setError(data.error)
             } else {
                 setEditId(null)
                 await getUsers();
             }
         } catch (err) {
-            setError(err);
+            setError(err.message);
         }
     }
 
-    async function createUser() {
+    async function createUser(evt) {
+        evt.preventDefault();
+        setError(null);
         try {
             const response = await fetch(`/IWA/contracten/${localStorage.getItem('contract')}/user`, {
                 method: 'POST',
@@ -76,16 +79,17 @@ function UserControl() {
             const data = await response.json();
             console.log(data);
             if (!response.ok) {
-                setError(data.err);
+                setError(data.error);
             } else {
                 await getUsers();
             }
         } catch (e) {
-            setError(e);
+            setError(e.message);
         }
     }
 
     async function deleteUser(identifier) {
+        setError(null);
         try {
             const response = await fetch(`/IWA/contracten/${localStorage.getItem('contract')}/user/${identifier}`, {
                 method: 'DELETE',
@@ -98,7 +102,7 @@ function UserControl() {
                 await getUsers();
             }
         } catch (err) {
-            setError(err);
+            setError(err.message);
         }
     }
 
@@ -134,9 +138,10 @@ function UserControl() {
                     <input className="form-input" type="text" id="email" name="email" onChange={handleEmailChange} placeholder="Email"/>
                     <input className="form-input" type="text" id="password" name="password" onChange={handlePasswordChange} placeholder="Password"/>
                     <input className="form-input" type="text" id="user_identifier" name="user_identifier" onChange={handleUserIdentifierChange} placeholder="User Identifier, such as OSAKA-003"/>
-                    <button className="button" onClick={createUser}>Create</button>
+                    <button className="button">Create</button>
                 </form>
             </details>
+            {(() => console.log(error))}
             {error && <p style={{color: "red"}}>{error}</p>}
             <table>
                 <thead>
