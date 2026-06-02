@@ -1,0 +1,25 @@
+/* Global layout rules to avoid horizontal scroll and provide base styles */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Prevent accidental horizontal scroll from wide children */
+body {
+  overflow-x: hidden;
+}
+
+/* Utility container used across components for consistent centering */
+.container-centered {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Gentle default font smoothing */
+body, input, button {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

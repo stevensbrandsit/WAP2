@@ -1,5 +1,6 @@
 import './Topbar.css';
 import {useLocation, useNavigate} from "react-router-dom";
+import osakaLogo from '../../assets/osaka.png';
 
 function Topbar() {
 
@@ -12,7 +13,7 @@ function Topbar() {
         } else {
             return (
                 <>
-                    <button className="button" onClick={(() => navigate('/dashboard'))}>Back to dashboard</button>
+                    <button className="button secondary" onClick={(() => navigate('/dashboard'))}>Back</button>
                 </>
             );
         }
@@ -36,14 +37,19 @@ function Topbar() {
     }
 
     return (
-        <>
-            <div className="topbar">
-                <div className="buttons-wrap">
+        <header className="topbar" role="banner">
+            <div className="topbar-inner">
+                <div className="brand">
+                    <img className="brand-logo" src={osakaLogo} alt="Osaka University" />
+                    <div className="brand-title">IWA - Osaka Access</div>
+                </div>
+
+                <nav className="buttons-wrap" aria-label="Topbar actions">
                     {decideToShowBackButton()}
                     <button className="button" onClick={logout}>Log out</button>
-                </div>
+                </nav>
             </div>
-        </>
+        </header>
     );
 }
 

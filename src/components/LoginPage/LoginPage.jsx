@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
+import osakaLogo from '../../assets/osaka.png';
+import iwaLogo from '../../assets/IWA.png';
 
 function LoginForm() {
 
@@ -54,30 +56,32 @@ function LoginForm() {
 
     return (
         <>
-            <div className="page-container">
-                <div className="form-container">
-                    <div className="login-form">
-                        <form onSubmit={handleFormSubmit}>
-                            <h2 className="form-title">Sign In</h2>
-                            <h3 className="form-subtitle">Enter your account information to continue</h3>
-                            {error && <p style={{color: "red"}}>{error}</p>}
-                            {token && <p style={{color: "green"}}>Logged in!</p>}
-                            <input className="form-input" type="text" id="email" name="email" onChange={handleEmailChange} placeholder="Email"/>
-                            <br/>
-                            < br/>
-                            <input className="form-input" type="text" id="password" name="password" onChange={handlePasswordChange} placeholder="Password"/>
-                            <br/>
-                            <br/>
-                            <input className="form-input" type="text" id="contract" name="contract" onChange={handleContractsChange} placeholder="Contract ID"/>
-                            <br/>
-                            <button className="form-submit" type="submit">Login</button>
-                            <div className="line"></div>
-                            <p className="footer">If you do not have an account, please contact your administrator to get one.</p>
-                            <div className="logo-container">
-                                <img className="logo" src="../../../src/assets/osaka.png" alt="Osaka university logo"></img>
-                                <img className="logo" src="../../../src/assets/IWA.png" alt="IWA logo"></img>
+            <div className="root-bg">
+                <div className="page-container">
+                    <div className="form-container">
+                        <div className="left-panel">
+                            <div className="login-form">
+                                <form onSubmit={handleFormSubmit}>
+                                    <h2 className="form-title">Sign In</h2>
+                                    <h3 className="form-subtitle">Enter your account information to continue</h3>
+                                    {error && <p style={{color: "#d23b3b"}}>{error}</p>}
+                                    {token && <p style={{color: "#2e7d32"}}>Logged in!</p>}
+                                    <input className="form-input" type="text" id="email" name="email" onChange={handleEmailChange} placeholder="Email"/>
+                                    <input className="form-input" type="password" id="password" name="password" onChange={handlePasswordChange} placeholder="Password"/>
+                                    <input className="form-input" type="text" id="contract" name="contract" onChange={handleContractsChange} placeholder="Contract ID"/>
+                                    <button className="form-submit" type="submit">Login</button>
+                                    <div className="line"></div>
+                                    <p className="footer">If you do not have an account, please contact your administrator to get one.</p>
+                                </form>
                             </div>
-                        </form>
+                        </div>
+
+                        <div className="right-panel">
+                            <div style={{textAlign: 'center'}}>
+                                <img className="logo" src={osakaLogo} alt="Osaka university logo" />
+                                <img className="logo" src={iwaLogo} alt="IWA logo" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
