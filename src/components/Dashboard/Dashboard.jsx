@@ -40,6 +40,7 @@ function Dashboard() {
     }
 
     async function updateUser(user) {
+        setError(null);
         try {
             const response = await fetch(`/IWA/contracten/${localStorage.getItem('contract')}/user/${user.user_identifier}`, {
                 method: 'PUT',
@@ -51,17 +52,19 @@ function Dashboard() {
             });
             const data = await response.json();
             if (!response.ok) {
-                setError(data.err)
+                setError(data.error)
             } else {
                 setEditId(null)
                 await getUsers();
             }
         } catch (err) {
-            setError(err);
+            setError(err.message);
         }
     }
 
-    async function createUser() {
+    async function createUser(evt) {
+        evt.preventDefault();
+        setError(null);
         try {
             const response = await fetch(`/IWA/contracten/${localStorage.getItem('contract')}/user`, {
                 method: 'POST',
@@ -69,25 +72,23 @@ function Dashboard() {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 },
-                body: JSON.stringify({ naam: name, email: createEmail, password: password, user_identifier: userIdentifier, machtiging: machtiging })
+                body: JSON.stringify({ naam: name, email: email, password: password, user_identifier: userIdentifier, machtiging: machtiging })
             });
             const data = await response.json();
+            console.log("STATUS:", response.status, "BODY:", JSON.stringify(data));
             if (!response.ok) {
-                setError(data.err);
+                setError(data.error);
             } else {
-                setName("");
-                setCreateEmail("");
-                setPassword("");
-                setUserIdentifier("");
-                setMachtiging("user");
                 await getUsers();
             }
         } catch (e) {
-            setError(e);
+            console.log(e.data);
+            setError(e.message);
         }
     }
 
     async function deleteUser(identifier) {
+        setError(null);
         try {
             const response = await fetch(`/IWA/contracten/${localStorage.getItem('contract')}/user/${identifier}`, {
                 method: 'DELETE',
@@ -100,7 +101,7 @@ function Dashboard() {
                 await getUsers();
             }
         } catch (err) {
-            setError(err);
+            setError(err.message);
         }
     }
 
@@ -117,8 +118,10 @@ function Dashboard() {
             if (!response.ok) {
                 setError(data.error)
             } else {
+                console.log(data)
                 setuserList(data.users);
             }
+            // eslint-disable-next-line no-unused-vars
         } catch (err) {
             navigate('/');
         }
@@ -167,7 +170,7 @@ function Dashboard() {
                     {/* Create User Form */}
                     <details className="mb-8 cursor-pointer">
                         <summary className="font-semibold text-xl text-black mb-4 p-4 bg-brand-primary rounded-lg hover:bg-brand-accent transition-colors">+ Create new user</summary>
-                        <form onSubmit={(e) => { e.preventDefault(); createUser(); }} className="mt-4 space-y-4 bg-blue-50 p-6 rounded-lg border-4 border-brand-primary">
+                        <form onSubmit={(e) => createUser(e)} className="mt-4 space-y-4 bg-blue-50 p-6 rounded-lg border-4 border-brand-primary">
                             <input 
                               className="w-full px-4 py-3 text-base rounded-lg border-2 border-brand-primary focus:outline-none focus:ring-2 focus:ring-orange-500 font-medium" 
                               type="text" id="name" name="name" value={name} onChange={handleUsernameChange} placeholder="Full Name" required
