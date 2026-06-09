@@ -72,7 +72,7 @@ function Dashboard() {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 },
-                body: JSON.stringify({ naam: name, email: email, password: password, user_identifier: userIdentifier, machtiging: machtiging })
+                body: JSON.stringify({ naam: name, email: createEmail, password: password, user_identifier: userIdentifier, machtiging: machtiging })
             });
             const data = await response.json();
             console.log("STATUS:", response.status, "BODY:", JSON.stringify(data));
