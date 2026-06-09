@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import Topbar from "../Topbar/Topbar.jsx";
 import './AdminPage.css';
 
 function AdminPage() {
@@ -157,7 +156,6 @@ function AdminPage() {
 
     return (
         <>
-            <Topbar />
             <main className="admin-page">
                 <div className="admin-container">
                     <div className="admin-hero">
