@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import Topbar from "../Topbar/Topbar.jsx";
 
@@ -12,12 +12,39 @@ function UserControl() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [userIdentifier, setUserIdentifier] = useState("");
-    const [machtiging, setMachtiging] = useState("user");
+    const machtiging = "user";
     const navigate = useNavigate();
 
+    const getUsers = useCallback(async () => {
+        try {
+            const response = await fetch(`/IWA/contracten/${localStorage.getItem('contract')}/users`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                setError(data.error)
+            } else {
+                console.log(data)
+                setuserList(data.users);
+            }
+        } catch {
+            navigate('/');
+        }
+    }, [navigate]);
+
     useEffect(() => {
-        getUsers();
-    }, []);
+        const timeoutId = window.setTimeout(() => {
+            getUsers();
+        }, 0);
+
+        return () => {
+            window.clearTimeout(timeoutId);
+        };
+    }, [getUsers]);
 
     function handleUsernameChange(evt) {
         setName(evt.target.value);
@@ -33,10 +60,6 @@ function UserControl() {
 
     function handleUserIdentifierChange(evt) {
         setUserIdentifier(evt.target.value);
-    }
-
-    function handleMachtigingChange(evt) {
-        setMachtiging(evt.target.value);
     }
 
     async function updateUser(user) {
@@ -98,28 +121,6 @@ function UserControl() {
             }
         } catch (err) {
             setError(err);
-        }
-    }
-
-    async function getUsers() {
-        try {
-            const response = await fetch(`/IWA/contracten/${localStorage.getItem('contract')}/users`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                },
-            });
-            const data = await response.json();
-            if (!response.ok) {
-                setError(data.error)
-            } else {
-                console.log(data)
-                setuserList(data.users);
-            }
-            // eslint-disable-next-line no-unused-vars
-        } catch (err) {
-            navigate('/');
         }
     }
 
