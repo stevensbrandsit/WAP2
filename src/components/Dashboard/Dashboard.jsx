@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import Topbar from "../Topbar/Topbar.jsx";
 import ResearchMap from "../ResearchMap/ResearchMap.jsx";
@@ -9,10 +9,20 @@ function Dashboard() {
     const token = localStorage.getItem('token');
     const contract = localStorage.getItem('contract');
     const navigate = useNavigate();
+    const [name, setName] = useState('');
+    const [createEmail, setCreateEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [userIdentifier, setUserIdentifier] = useState('');
+    const [machtiging, setMachtiging] = useState('user');
+    const [userList, setuserList] = useState([]);
+    const [error, setError] = useState(null);
+    const [editId, setEditId] = useState(null);
+    const [editData, setEditData] = useState({});
+    const [email, setEmail] = useState('');
     
     useEffect(() => {
         getUsers();
-    }, []);
+    }, [token, contract, navigate]);
 
     function handleUsernameChange(evt) {
         setName(evt.target.value);
@@ -110,43 +120,20 @@ function Dashboard() {
             } else {
                 setuserList(data.users);
             }
+            // eslint-disable-next-line no-unused-vars
         } catch (err) {
             navigate('/');
-            return;
         }
-    }, [token, contract, navigate]);
-
+    }
     return (
         <>
             <Topbar />
             <main className="min-h-screen px-6 py-8 bg-gradient-to-b from-blue-100 to-blue-50">
                 <div className="max-w-[1100px] mx-auto">
-                {/* Welcome Section */}
-                <section className="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary text-black p-8 rounded-xl shadow-lg">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h1 className="text-4xl font-bold mb-2 text-black">Welcome</h1>
-                            <p className="text-xl text-black">Signed in as: {email || 'Unknown'}</p>
-                        </div>
-                        <img className="w-32 h-32 object-contain opacity-90" src={osakaLogo} alt="Osaka University" />
-                    </div>
-                </section>
 
                 {/* Weather Map Section */}
                 <section className="mt-10">
-                    <div className="mb-4">
-                        <h2 className="text-3xl font-bold text-brand-primary mb-2">Weather Forecast</h2>
-                        <p className="text-black text-base">Live weather overlay (wind) — interactive. If it doesn't load, <a href="https://www.windy.com/?52.370,4.895,6" target="_blank" rel="noreferrer" className="text-orange-500 hover:text-orange-600 font-semibold underline">open in a new tab</a>.</p>
-                    </div>
-
-                    <div className="w-full h-96 md:h-[420px] rounded-xl overflow-hidden bg-gray-200 shadow-lg mb-4 border-4 border-brand-primary">
-                        <iframe
-                            title="Weather map"
-                            src="https://embed.windy.com/embed2.html?lat=52.3702&lon=4.8952&detailLat=52.3702&detailLon=4.8952&width=650&height=450&zoom=6&level=surface&overlay=wind&product=ecmwf&menu=&message=true&marker=&calendar=now&pressure=true&type=map&location=coordinates&detail=true&metricWind=km%2Fh"
-                            frameBorder="0"
-                            className="w-full h-full"
-                        />
-                    </div>
+                    <ResearchMap/>
                 </section>
 
                 {/* Admin Panel - User Management */}
