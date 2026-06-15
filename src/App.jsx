@@ -2,11 +2,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginPage from "./components/LoginPage/LoginPage.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import AdminPage from "./components/AdminPage/AdminPage.jsx";
+import PWAPrompt from "./components/PWAPrompt/PWAPrompt.jsx";
 
 function App() {
   return (
     <>
       <BrowserRouter>
+        <PWAPrompt />
         <Routes>
             <Route path='/' element={<LoginPage />} />
             <Route path='/dashboard' element={<Dashboard />} />
